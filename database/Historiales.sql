@@ -2,39 +2,39 @@ create database Historiales
 
 use Historiales
 
-create table Alumno(
-	No_Control int not null,
-	Nombre varchar(50),
-	Sexo varchar(15),
-	Carrera varchar(30)
+CREATE TABLE Alumno(
+	No_Control INT NOT NULL,
+	Nombre VARCHAR(50),
+	Sexo VARCHAR(15),
+	Carrera VARCHAR(30)
 )
 
 alter table Alumno add constraint pk_alumno primary key (No_Control)
 
-create table Médico(
-	Cédula int not null,
+create table Medico(
+	Cedula int not null,
 	Nombre varchar(50),
 	Campus int
 )
 
-alter table Médico add constraint pk_medico primary key (Cédula)
+alter table Medico add constraint pk_medico primary key (Cedula)
 
 create table Consulta(
 	No_Consulta int not null,
 	No_Control int not null,
-	Cédula int not null,
+	Cedula int not null,
 	Fecha_consulta date,
-	Diagnóstico varchar(30),
+	Diagnostico varchar(30),
 	Tipo_Afeccion varchar(30)
 )
 
 alter table Consulta add constraint pk_consulta primary key (No_Consulta)
 
-alter table Consulta ADD constraint fk_alumno_consulta foreign key (No_Control) 
+alter table Consulta ADD constraint fk_alumno_consulta foreign key (No_Control)
 References Alumno (No_Control)
 
-alter table Consulta ADD constraint fk_medico_consulta foreign key (Cédula) 
-References Médico (Cédula)
+alter table Consulta ADD constraint fk_medico_consulta foreign key (Cedula)
+References Medico (Cedula)
 
 create table Medicamento(
 	No_Consulta int not null,
@@ -44,20 +44,20 @@ create table Medicamento(
 
 alter table Medicamento add constraint pk_medicamento primary key (Cod_M)
 
-alter table Medicamento ADD constraint fk_consulta_medicamento foreign key (No_Consulta) 
+alter table Medicamento ADD constraint fk_consulta_medicamento foreign key (No_Consulta)
 References Consulta (No_Consulta)
 
-create table Alérgico(
+create table Alergico(
 	No_Control int not null,
 	Cod_M varchar(8)not null
 )
 
-alter table Alérgico add constraint pk_alergico primary key (No_Control, Cod_M)
+alter table Alergico add constraint pk_alergico primary key (No_Control, Cod_M)
 
-alter table Alérgico add constraint fk_alumno_alergico foreign key (No_Control) 
+alter table Alergico add constraint fk_alumno_alergico foreign key (No_Control)
 References Alumno (No_Control)
 
-alter table Alérgico add constraint fk_medicamento_alergico foreign key (Cod_M) 
+alter table Alergico add constraint fk_medicamento_alergico foreign key (Cod_M)
 References Medicamento (Cod_M)
 
 

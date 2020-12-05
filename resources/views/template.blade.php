@@ -15,10 +15,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
         <a class="nav-item nav-link" href="{{ url('alumnos') }}">Alumnos</a>
-        <a class="nav-item nav-link" href="#">Médicos</a>
-        <a class="nav-item nav-link" href="#">Medicamentos</a>
-        <a class="nav-item nav-link" href="#">Alergias</a>
-        <a class="nav-item nav-link" href="#">Consulta</a>
+        <a class="nav-item nav-link" href="{{ url('medicos') }}">Médicos</a>
+        <a class="nav-item nav-link" href="{{ url('medicamentos') }}">Medicamentos</a>
+        <a class="nav-item nav-link" href="{{ url('alergias') }}">Alergias</a>
+        <a class="nav-item nav-link" href="{{ url('consultas') }}">Consulta</a>
         </div>
     </div>
     </nav>

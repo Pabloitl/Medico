@@ -11,9 +11,9 @@
 
     <div class="text-center">
         <a href="{{ url('/alumnos') }}"><button class="btn btn-primary">Alumnos</button></a>
-        <a href="{{ url('/alumnos') }}"><button class="btn btn-primary">Médicos</button></a>
-        <a href="{{ url('/alumnos') }}"><button class="btn btn-primary">Medicamentos</button></a>
-        <a href="{{ url('/alumnos') }}"><button class="btn btn-primary">Alergias</button></a>
-        <a href="{{ url('/alumnos') }}"><button class="btn btn-primary">Consultas</button></a>
+        <a href="{{ url('/medicos') }}"><button class="btn btn-primary">Médicos</button></a>
+        <a href="{{ url('/medicamentos') }}"><button class="btn btn-primary">Medicamentos</button></a>
+        <a href="{{ url('/alergias') }}"><button class="btn btn-primary">Alergias</button></a>
+        <a href="{{ url('/consultas') }}"><button class="btn btn-primary">Consultas</button></a>
     </div>
 @endsection

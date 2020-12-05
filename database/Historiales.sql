@@ -46,6 +46,9 @@ ADD CONSTRAINT fk_alumno_consulta FOREIGN KEY (No_Control) REFERENCES Alumno (No
 ALTER TABLE Consulta
 ADD CONSTRAINT fk_medico_consulta FOREIGN KEY (Cedula) REFERENCES Medico (Cedula);
 
+ALTER TABLE Consulta
+ADD CONSTRAINT fk_medicamento_consulta FOREIGN KEY (Cod_M) REFERENCES Medicamento (Cod_M);
+
 CREATE TABLE Medicamento(
 	Cod_M VARCHAR(8) NOT NULL,
 	Nombre VARCHAR(40)

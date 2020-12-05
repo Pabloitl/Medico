@@ -33,7 +33,8 @@ CREATE TABLE Consulta(
 	Cedula INT NOT NULL,
 	Fecha_consulta DATE,
 	Diagnostico VARCHAR(30),
-	Tipo_Afeccion VARCHAR(30)
+	Tipo_Afeccion VARCHAR(30),
+    Cod_M VARCHAR(8) NOT NULL
 );
 
 ALTER TABLE Consulta

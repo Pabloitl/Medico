@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Alumno;
 use App\Http\Controllers\Alergia;
+use App\Http\Controllers\Consulta;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,10 @@ Route::get('/alergias/nuevo', [Alergia::class, 'new']);
 Route::post('/alergias/crear', [Alergia::class, 'create']);
 Route::get('/alergias/borrar/{id}/{id2}', [Alergia::class, 'delete']);
 Route::get('/alergias/{id}/{id2}', [Alergia::class, 'show']);
+
+Route::get('/consultas', [Consulta::class, 'index']);
+Route::get('/consultas/nuevo', [Consulta::class, 'new']);
+Route::post('/consultas/crear', [Consulta::class, 'create']);
+Route::post('/consultas/actualizar', [Consulta::class, 'update']);
+Route::get('/consultas/borrar/{id}', [Consulta::class, 'delete']);
+Route::get('/consultas/{id}', [Consulta::class, 'show']);

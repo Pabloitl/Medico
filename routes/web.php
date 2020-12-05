@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Alumno;
 use App\Http\Controllers\Alergia;
 use App\Http\Controllers\Consulta;
+use App\Http\Controllers\Medicamento;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,10 @@ Route::post('/consultas/crear', [Consulta::class, 'create']);
 Route::post('/consultas/actualizar', [Consulta::class, 'update']);
 Route::get('/consultas/borrar/{id}', [Consulta::class, 'delete']);
 Route::get('/consultas/{id}', [Consulta::class, 'show']);
+
+Route::get('/medicamentos', [Medicamento::class, 'index']);
+Route::get('/medicamentos/nuevo', [Medicamento::class, 'new']);
+Route::post('/medicamentos/crear', [Medicamento::class, 'create']);
+Route::post('/medicamentos/actualizar', [Medicamento::class, 'update']);
+Route::get('/medicamentos/borrar/{id}', [Medicamento::class, 'delete']);
+Route::get('/medicamentos/{id}', [Medicamento::class, 'show']);

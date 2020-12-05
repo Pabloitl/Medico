@@ -40,6 +40,10 @@
             <label for="Tipo_Afeccion">Tipo de Afección:</label>
             <input type="text" class="form-control" id="Tipo_Afeccion" name="Tipo_Afeccion" value="{{ $record['Tipo_Afeccion'] ?? '' }}">
         </div>
+        <div class="form-group">
+            <label for="Cod_M">Código Medicamento:</label>
+            <input type="text" class="form-control" id="Cod_M" name="Cod_M" value="{{ $record['Cod_M'] ?? '' }}">
+        </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success btn-block">Enviar</button>
         </div>

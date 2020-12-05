@@ -27,7 +27,8 @@ class Consulta extends Controller
             'Cedula' => $request['Cedula'],
             'Fecha_consulta' => $request['Fecha_consulta'],
             'Diagnostico' => $request['Diagnostico'],
-            'Tipo_Afeccion' => $request['Tipo_Afeccion']
+            'Tipo_Afeccion' => $request['Tipo_Afeccion'],
+            'Cod_M' => $request['Cod_M']
         ]);
         $alumno->save();
 
@@ -50,6 +51,7 @@ class Consulta extends Controller
             $record->Fecha_consulta = $request['Fecha_consulta'];
             $record->Diagnostico = $request['Diagnostico'];
             $record->Tipo_Afeccion = $request['Tipo_Afeccion'];
+            $record->Cod_M = $request['Cod_M'];
 
         $record->save();
 

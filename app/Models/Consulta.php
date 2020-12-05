@@ -12,5 +12,5 @@ class Consulta extends Model
     protected $table = 'Consulta';
     protected $primaryKey = 'No_Consulta';
     public $timestamps = false;
-    protected $fillable = ['No_Consulta', 'No_Control', 'Cedula', 'Fecha_consulta', 'Diagnostico', 'Tipo_Afeccion'];
+    protected $fillable = ['No_Consulta', 'No_Control', 'Cedula', 'Fecha_consulta', 'Diagnostico', 'Tipo_Afeccion', 'Cod_M'];
 }

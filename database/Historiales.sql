@@ -103,18 +103,18 @@ ADD
 -- Insertar registros en la BD
 
 
--- Vistas
+-- Vista
 
--- Cuántas veces se han usado los medicamentos
-CREATE VIEW UsoMedicamentos_view AS
+-- Cuantas veces se han usado los medicamentos
+CREATE VIEW UsoMedicamentos AS
 SELECT
     Nombre,
-    COUNT(*) AS NVecesUsado
+    COUNT(*) AS Usado
 FROM
     Consulta
     JOIN Medicamento ON Consulta.Cod_M = Medicamento.Cod_M
 GROUP BY
-    Nombre
+    Nombre;
 
 -- Creacion de usuarios y delimitacion de privilegios
 

@@ -1,8 +1,8 @@
--- DROP TABLE Consulta;
--- DROP TABLE Alergia;
--- DROP TABLE Medicamento;
--- DROP TABLE Alumno;
--- DROP TABLE Medico;
+DROP TABLE Consulta;
+DROP TABLE Alergia;
+DROP TABLE Medicamento;
+DROP TABLE Alumno;
+DROP TABLE Medico;
 --- Hasta este punto se va a quitar
 
 -- Script LDD
@@ -11,7 +11,6 @@ CREATE DATABASE Historiales
 USE Historiales
 
 --- Creación de tablas con claves foraneas y primarias
-
 CREATE TABLE Alumno(
 	No_Control INT NOT NULL,
 	Nombre VARCHAR(50),
@@ -37,7 +36,8 @@ CREATE TABLE Consulta(
 
 CREATE TABLE Medicamento(
     Cod_M VARCHAR(8) NOT NULL,
-    Nombre VARCHAR(40)
+    Nombre VARCHAR(40),
+    Cantidad INT
 );
 
 CREATE TABLE Alergia(
@@ -104,12 +104,11 @@ ADD
 
 
 -- Vista
-
 -- Cuantas veces se han usado los medicamentos
 CREATE VIEW UsoMedicamentos AS
 SELECT
     Nombre,
-    COUNT(*) AS Usado
+    COUNT(*) AS Usos
 FROM
     Consulta
     JOIN Medicamento ON Consulta.Cod_M = Medicamento.Cod_M
@@ -117,10 +116,92 @@ GROUP BY
     Nombre;
 
 -- Creacion de usuarios y delimitacion de privilegios
+--- Usuario 1
+CREATE LOGIN Dueno WITH PASSWORD = 'password';
+
+CREATE USER Dueno
+FROM
+    LOGIN Dueno;
+
+EXEC sp_addrolemember @rolename = 'db_owner',
+@membername = 'Dueno';
+
+--- Usuario 2
+CREATE LOGIN Sistema WITH PASSWORD = 'password';
+
+CREATE USER Sistema
+FROM
+    LOGIN Sistema;
+
+EXEC sp_addrolemember @rolename = 'db_datareader',
+@membername = 'Sistema';
+
+EXEC sp_addrolemember @rolename = 'db_datawriter',
+@membername = 'Sistema';
 
 -- Creación de procedimientos almacenados para inserción de registros
+CREATE PROCEDURE InsertarAlumno
+    @No_Control INT,
+    @Nombre VARCHAR(50),
+    @Sexo VARCHAR(15),
+    @Carrera VARCHAR(30)
+AS
+    INSERT INTO
+        Alumno
+    VALUES
+        (@No_Control, @Nombre, @Sexo, @Carrera);
+
+CREATE PROCEDURE InsertarMedico
+    @Cedula INT,
+    @Nombre VARCHAR(50),
+    @Campus INT
+AS
+    INSERT INTO
+        Medico
+    VALUES
+        (@Cedula, @Nombre, @Campus);
+
+CREATE PROCEDURE InsertarConsulta
+    @No_Consulta INT,
+    @No_Control VARCHAR(50),
+    @Cedula INT,
+    @Fecha_consulta DATE,
+    @Diagnostico VARCHAR(30),
+    @Tipo_Afeccion VARCHAR(30),
+    @Cod_M VARCHAR(8)
+AS
+    INSERT INTO
+        Consulta
+    VALUES
+        (@No_Consulta, @No_Control, @Cedula, @Fecha_consulta,
+        @Diagnostico, @Tipo_Afeccion, @Cod_M);
+    
+
+CREATE PROCEDURE InsertarMedicamento
+    @Cod_M VARCHAR(8),
+    @Nombre VARCHAR(40),
+    @Cantidad INT
+AS
+    INSERT INTO
+        Medicamento
+    VALUES
+        (@Cod_M, @Nombre, @Cantidad);
+
+CREATE PROCEDURE InsertarAlergia
+    @No_Control INT,
+    @Cod_M VARCHAR(8)
+AS
+    INSERT INTO
+        Alergia
+    VALUES
+        (@No_Control, @Cod_M);
 
 -- creación de procedimientos almacenados para consulta o
 -- actualizacion de la base de datos
 
 -- Definición de un trigger para controlar integridad de datos
+CREATE TRIGGER CantidadMedicamentos
+ON Consulta
+AFTER INSERT
+AS
+	UPDATE Medicamentos SET Cantidad = Cantidad + 1 WHERE Cod_M = (SELECT Cod_M FROM inserted);

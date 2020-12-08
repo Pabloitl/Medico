@@ -12,22 +12,22 @@ USE Historiales
 
 --- Creación de tablas con claves foraneas y primarias
 CREATE TABLE Alumno(
-	No_Control INT NOT NULL,
+	No_Control INT UNIQUE NOT NULL,
 	Nombre VARCHAR(50),
 	Sexo VARCHAR(15),
 	Carrera VARCHAR(30)
 );
 
 CREATE TABLE Medico(
-    Cedula INT NOT NULL,
+    Cedula INT UNIQUE NOT NULL,
     Nombre VARCHAR(50),
     Campus INT
 );
 
 CREATE TABLE Consulta(
-    No_Consulta INT NOT NULL,
-    No_Control INT NOT NULL,
-    Cedula INT NOT NULL,
+    No_Consulta INT IDENTITY(1,1) NOT NULL,
+    No_Control INT UNIQUE NOT NULL,
+    Cedula INT UNIQUE NOT NULL,
     Fecha_consulta DATE,
     Diagnostico VARCHAR(30),
     Tipo_Afeccion VARCHAR(30),
@@ -35,14 +35,14 @@ CREATE TABLE Consulta(
 );
 
 CREATE TABLE Medicamento(
-    Cod_M VARCHAR(8) NOT NULL,
+    Cod_M VARCHAR(8) UNIQUE NOT NULL,
     Nombre VARCHAR(40),
     Cantidad INT
 );
 
 CREATE TABLE Alergia(
-    No_Control INT NOT NULL,
-    Cod_M VARCHAR(8) NOT NULL
+    No_Control INT UNIQUE NOT NULL,
+    Cod_M VARCHAR(8) UNIQUE NOT NULL
 );
 
 ALTER TABLE

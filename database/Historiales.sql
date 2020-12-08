@@ -19,30 +19,29 @@ CREATE TABLE Alumno(
 );
 
 CREATE TABLE Medico(
-    Cedula INT UNIQUE NOT NULL,
-    Nombre VARCHAR(50),
-    Campus INT
+	Cedula INT UNIQUE NOT NULL,
+	Nombre VARCHAR(50),
+	Campus INT
 );
 
 CREATE TABLE Consulta(
-    No_Consulta INT IDENTITY(1,1) NOT NULL,
-    No_Control INT UNIQUE NOT NULL,
-    Cedula INT UNIQUE NOT NULL,
-    Fecha_consulta DATE,
-    Diagnostico VARCHAR(30),
-    Tipo_Afeccion VARCHAR(30),
+	No_Consulta INT IDENTITY (1,1) NOT NULL,
+	No_Control INT NOT NULL,
+	Cedula INT NOT NULL,
+	Fecha_consulta DATE,
+	Tipo_Afeccion VARCHAR(30),
     Cod_M VARCHAR(8) NOT NULL
 );
 
 CREATE TABLE Medicamento(
-    Cod_M VARCHAR(8) UNIQUE NOT NULL,
-    Nombre VARCHAR(40),
-    Cantidad INT
+	Cod_M VARCHAR(8) UNIQUE NOT NULL,
+	Nombre VARCHAR(40),
+	Cantidad INT
 );
 
 CREATE TABLE Alergia(
-    No_Control INT UNIQUE NOT NULL,
-    Cod_M VARCHAR(8) UNIQUE NOT NULL
+	No_Control INT NOT NULL,
+	Cod_M VARCHAR(8) NOT NULL
 );
 
 ALTER TABLE
@@ -101,7 +100,34 @@ ADD
     REFERENCES Medicamento (Cod_M);
 
 -- Insertar registros en la BD
+INSERT INTO Alumno VALUES (18240123, 'Andrea Rivera Veloz', 'F', 'Logística')
+INSERT INTO Alumno VALUES (20240408, 'Brenda Guerrero Aviña', 'F', 'Gestión Empresarial')
+INSERT INTO Alumno VALUES (17246487, 'Diego Montes López', 'M', 'Industrial')
+INSERT INTO Alumno VALUES (18242334, 'Ricardo Aldape Moreno', 'M', 'Electromecánica')
+INSERT INTO Alumno VALUES (18245628, 'Rosario Valdez Fuentes', 'F', 'Sistemas Computacionales')
 
+INSERT INTO Medico VALUES (35879723, 'Manuel Andrade Villalobos', 1)
+INSERT INTO Medico VALUES (34565678, 'Patricia Ruiz Alcantar', 1)
+INSERT INTO Medico VALUES (56676844, 'Alejandro Origel Muñoz', 2)
+
+INSERT INTO Medicamento VALUES ('P-237583', 'Paracetamol', 30)
+INSERT INTO Medicamento VALUES ('N-434084', 'Naproxeno', 35)
+INSERT INTO Medicamento VALUES ('I-434567', 'Ibuprofeno', 45)
+INSERT INTO Medicamento VALUES ('O-423048', 'Omeprazol', 60)
+INSERT INTO Medicamento VALUES ('A-674234', 'Ambroxol', 15)
+INSERT INTO Medicamento VALUES ('A-864540', 'Amoxicilina', 30)
+INSERT INTO Medicamento VALUES ('A-934721', 'Aspirina', 36)
+
+INSERT INTO Alergia VALUES (18240123, 'I-434567')
+INSERT INTO Alergia VALUES (20240408, 'A-864540')
+INSERT INTO Alergia VALUES (18242334, 'A-934721')
+
+INSERT INTO Consulta VALUES (18240123, 34565678, '2019-09-24', 'Infección en la garganta', 'A-864540')
+INSERT INTO Consulta VALUES (20240408, 56676844, '2019-10-01', 'Dolor de cabeza', 'A-934721')
+INSERT INTO Consulta VALUES (17246487, 34565678, '2019-10-08', 'Fiebre', 'P-237583')
+INSERT INTO Consulta VALUES (18242334, 35879723, '2019-10-08', 'Dolor muscular', 'I-434567')
+INSERT INTO Consulta VALUES (18245628, 35879723, '2019-10-11', 'Acidez estomacal', 'O-423048')
+	
 
 -- Vista
 -- Cuantas veces se han usado los medicamentos

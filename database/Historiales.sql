@@ -20,65 +20,85 @@ CREATE TABLE Alumno(
 );
 
 CREATE TABLE Medico(
-	Cedula INT NOT NULL,
-	Nombre VARCHAR(50),
-	Campus INT
+    Cedula INT NOT NULL,
+    Nombre VARCHAR(50),
+    Campus INT
 );
 
 CREATE TABLE Consulta(
-	No_Consulta INT NOT NULL,
-	No_Control INT NOT NULL,
-	Cedula INT NOT NULL,
-	Fecha_consulta DATE,
-	Diagnostico VARCHAR(30),
-	Tipo_Afeccion VARCHAR(30),
+    No_Consulta INT NOT NULL,
+    No_Control INT NOT NULL,
+    Cedula INT NOT NULL,
+    Fecha_consulta DATE,
+    Diagnostico VARCHAR(30),
+    Tipo_Afeccion VARCHAR(30),
     Cod_M VARCHAR(8) NOT NULL
 );
 
 CREATE TABLE Medicamento(
-	Cod_M VARCHAR(8) NOT NULL,
-	Nombre VARCHAR(40)
+    Cod_M VARCHAR(8) NOT NULL,
+    Nombre VARCHAR(40)
 );
 
 CREATE TABLE Alergia(
-	No_Control INT NOT NULL,
-	Cod_M VARCHAR(8) NOT NULL
+    No_Control INT NOT NULL,
+    Cod_M VARCHAR(8) NOT NULL
 );
 
-ALTER TABLE Alumno
-ADD CONSTRAINT pk_alumno PRIMARY KEY (No_Control);
+ALTER TABLE
+    Alumno
+ADD
+    CONSTRAINT pk_alumno PRIMARY KEY (No_Control);
 
-ALTER TABLE Medico
-ADD CONSTRAINT pk_medico PRIMARY KEY (Cedula);
+ALTER TABLE
+    Medico
+ADD
+    CONSTRAINT pk_medico PRIMARY KEY (Cedula);
 
-ALTER TABLE Consulta
-ADD CONSTRAINT pk_consulta PRIMARY KEY (No_Consulta);
+ALTER TABLE
+    Consulta
+ADD
+    CONSTRAINT pk_consulta PRIMARY KEY (No_Consulta);
 
-ALTER TABLE Consulta
-ADD CONSTRAINT fk_alumno_consulta FOREIGN KEY (No_Control)
-REFERENCES Alumno (No_Control);
+ALTER TABLE
+    Consulta
+ADD
+    CONSTRAINT fk_alumno_consulta FOREIGN KEY (No_Control)
+    REFERENCES Alumno (No_Control);
 
-ALTER TABLE Consulta
-ADD CONSTRAINT fk_medico_consulta FOREIGN KEY (Cedula)
-REFERENCES Medico (Cedula);
+ALTER TABLE
+    Consulta
+ADD
+    CONSTRAINT fk_medico_consulta FOREIGN KEY (Cedula)
+    REFERENCES Medico (Cedula);
 
-ALTER TABLE Consulta
-ADD CONSTRAINT fk_medicamento_consulta FOREIGN KEY (Cod_M)
-REFERENCES Medicamento (Cod_M);
+ALTER TABLE
+    Consulta
+ADD
+    CONSTRAINT fk_medicamento_consulta FOREIGN KEY (Cod_M)
+    REFERENCES Medicamento (Cod_M);
 
-ALTER TABLE Medicamento
-ADD CONSTRAINT pk_medicamento PRIMARY KEY (Cod_M);
+ALTER TABLE
+    Medicamento
+ADD
+    CONSTRAINT pk_medicamento PRIMARY KEY (Cod_M);
 
-ALTER TABLE Alergia
-ADD CONSTRAINT pk_alergia PRIMARY KEY (No_Control, Cod_M);
+ALTER TABLE
+    Alergia
+ADD
+    CONSTRAINT pk_alergia PRIMARY KEY (No_Control, Cod_M);
 
-ALTER TABLE Alergia
-ADD CONSTRAINT fk_alumno_alergia FOREIGN KEY (No_Control)
-REFERENCES Alumno (No_Control);
+ALTER TABLE
+    Alergia
+ADD
+    CONSTRAINT fk_alumno_alergia FOREIGN KEY (No_Control)
+    REFERENCES Alumno (No_Control);
 
-ALTER TABLE Alergia
-ADD CONSTRAINT fk_medicamento_alergia FOREIGN KEY (Cod_M)
-REFERENCES Medicamento (Cod_M);
+ALTER TABLE
+    Alergia
+ADD
+    CONSTRAINT fk_medicamento_alergia FOREIGN KEY (Cod_M)
+    REFERENCES Medicamento (Cod_M);
 
 -- Insertar registros en la BD
 
@@ -86,11 +106,15 @@ REFERENCES Medicamento (Cod_M);
 -- Vistas
 
 -- Cuántas veces se han usado los medicamentos
-CREATE VIEW UsoMedicamentos_view
-AS
-SELECT Nombre, COUNT(*) AS NVecesUsado
-FROM Consulta JOIN Medicamento ON Consulta.Cod_M = Medicamento.Cod_M
-GROUP BY Nombre
+CREATE VIEW UsoMedicamentos_view AS
+SELECT
+    Nombre,
+    COUNT(*) AS NVecesUsado
+FROM
+    Consulta
+    JOIN Medicamento ON Consulta.Cod_M = Medicamento.Cod_M
+GROUP BY
+    Nombre
 
 -- Creacion de usuarios y delimitacion de privilegios
 

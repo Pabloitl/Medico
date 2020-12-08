@@ -175,7 +175,7 @@ AS
     VALUES
         (@No_Consulta, @No_Control, @Cedula, @Fecha_consulta,
         @Diagnostico, @Tipo_Afeccion, @Cod_M);
-    
+
 
 CREATE PROCEDURE InsertarMedicamento
     @Cod_M VARCHAR(8),
@@ -199,9 +199,118 @@ AS
 -- creación de procedimientos almacenados para consulta o
 -- actualizacion de la base de datos
 
--- Definición de un trigger para controlar integridad de datos
-CREATE TRIGGER CantidadMedicamentos
-ON Consulta
-AFTER INSERT
+--- Procedimientos de consulta
+CREATE PROCEDURE ConsultarAlumnos
 AS
-	UPDATE Medicamentos SET Cantidad = Cantidad + 1 WHERE Cod_M = (SELECT Cod_M FROM inserted);
+    SELECT
+        *
+    FROM
+        Alumno;
+
+CREATE PROCEDURE ConsultarMedicos
+AS
+    SELECT
+        *
+    FROM
+        Medico;
+
+CREATE PROCEDURE ConsultarConsultas
+AS
+    SELECT
+        (No_Consulta, No_Control, Cedula, Fecha_consulta)
+    FROM
+        Consulta;
+
+CREATE PROCEDURE ConsultarMedicamentos
+AS
+    SELECT
+        *
+    FROM
+        Medicamento;
+
+CREATE PROCEDURE ConsultarAlergias
+AS
+    SELECT
+        *
+    FROM
+        Alergia;
+
+--- Procedimientos de actualización
+CREATE PROCEDURE ActualizarAlumno
+    @No_Control INT,
+    @Nombre VARCHAR(50),
+    @Sexo VARCHAR(15),
+    @Carrera VARCHAR(30)
+AS
+    UPDATE
+        Alumno
+    SET
+        Nombre = @Nombre,
+        Sexo = @Sexo,
+        Carrera = @Carrera
+    WHERE
+        No_Control = @No_Control;
+
+CREATE PROCEDURE ActualizarMedico
+    @Cedula INT,
+    @Nombre VARCHAR(50),
+    @Campus INT
+AS
+    UPDATE
+        Medico
+    SET
+        Nombre = @Nombre,
+        Campus = @Campus,
+    WHERE
+        Cedula = @Cedula;
+
+CREATE PROCEDURE ActualizarConsulta
+    @No_Consulta INT,
+    @No_Control VARCHAR(50),
+    @Cedula INT,
+    @Fecha_consulta DATE,
+    @Diagnostico VARCHAR(30),
+    @Tipo_Afeccion VARCHAR(30),
+    @Cod_M VARCHAR(8)
+AS
+    UPDATE
+        Consulta
+    SET
+        No_Control = @No_Control,
+        Cedula = @Cedula,
+        Fecha_consulta = @Fecha_consulta,
+        Diagnostico = @Diagnostico,
+        Tipo_Afeccion = @Tipo_Afeccion,
+        Cod_M = @Cod_M
+    WHERE
+        No_Consulta = @No_Consulta;
+
+
+CREATE PROCEDURE ActualizarMedicamento
+    @Cod_M VARCHAR(8),
+    @Nombre VARCHAR(40),
+    @Cantidad INT
+AS
+    UPDATE
+        Medicamento
+    SET
+        Nombre = @Nombre,
+        Cantidad = @Cantidad,
+    WHERE
+        Cod_M = @Cod_M;
+
+-- Definición de un trigger para controlar integridad de datos
+CREATE TRIGGER CantidadMedicamentos ON Consulta
+    AFTER INSERT
+AS
+    UPDATE
+        Medicamentos
+    SET
+        Cantidad = Cantidad + 1
+    WHERE
+        Cod_M = (
+            SELECT
+                Cod_M
+            FROM
+                inserted
+        );

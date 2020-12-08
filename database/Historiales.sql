@@ -72,6 +72,14 @@ ALTER TABLE Alergia
 ADD CONSTRAINT fk_medicamento_alergia FOREIGN KEY (Cod_M) REFERENCES Medicamento (Cod_M);
 
 
+-- Vistas
 
+-- Cuántas veces se han usado los medicamentos
+
+CREATE VIEW UsoMedicamentos_view
+AS
+SELECT Nombre, COUNT(*) AS NVecesUsado
+FROM Consulta JOIN Medicamento ON Consulta.Cod_M = Medicamento.Cod_M
+GROUP BY Nombre
 
 

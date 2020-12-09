@@ -3,12 +3,13 @@ DROP TABLE Alergia;
 DROP TABLE Medicamento;
 DROP TABLE Alumno;
 DROP TABLE Medico;
+DROP DATABASE Historiales;
 --- Hasta este punto se va a quitar
 
 -- Script LDD
-CREATE DATABASE Historiales
+CREATE DATABASE Historiales;
 
-USE Historiales
+USE Historiales;
 
 --- Creación de tablas con claves foraneas y primarias
 CREATE TABLE Alumno(
@@ -60,6 +61,16 @@ ADD
     CONSTRAINT pk_consulta PRIMARY KEY (No_Consulta);
 
 ALTER TABLE
+    Medicamento
+ADD
+    CONSTRAINT pk_medicamento PRIMARY KEY (Cod_M);
+
+ALTER TABLE
+    Alergia
+ADD
+    CONSTRAINT pk_alergia PRIMARY KEY (No_Control, Cod_M);
+
+ALTER TABLE
     Consulta
 ADD
     CONSTRAINT fk_alumno_consulta FOREIGN KEY (No_Control)
@@ -78,16 +89,6 @@ ADD
     REFERENCES Medicamento (Cod_M);
 
 ALTER TABLE
-    Medicamento
-ADD
-    CONSTRAINT pk_medicamento PRIMARY KEY (Cod_M);
-
-ALTER TABLE
-    Alergia
-ADD
-    CONSTRAINT pk_alergia PRIMARY KEY (No_Control, Cod_M);
-
-ALTER TABLE
     Alergia
 ADD
     CONSTRAINT fk_alumno_alergia FOREIGN KEY (No_Control)
@@ -100,34 +101,118 @@ ADD
     REFERENCES Medicamento (Cod_M);
 
 -- Insertar registros en la BD
-INSERT INTO Alumno VALUES (18240123, 'Andrea Rivera Veloz', 'F', 'Logística')
-INSERT INTO Alumno VALUES (20240408, 'Brenda Guerrero Aviña', 'F', 'Gestión Empresarial')
-INSERT INTO Alumno VALUES (17246487, 'Diego Montes López', 'M', 'Industrial')
-INSERT INTO Alumno VALUES (18242334, 'Ricardo Aldape Moreno', 'M', 'Electromecánica')
-INSERT INTO Alumno VALUES (18245628, 'Rosario Valdez Fuentes', 'F', 'Sistemas Computacionales')
+INSERT INTO
+    Alumno
+VALUES
+    (
+        18240123,
+        'Andrea Rivera Veloz',
+        'Mujer',
+        'Logística'
+    ),
+    (
+        20240408,
+        'Brenda Guerrero Aviña',
+        'Mujer',
+        'Gestión Empresarial'
+    ),
+    (
+        17246487,
+        'Diego Montes López',
+        'Hombre',
+        'Industrial'
+    ),
+    (
+        18242334,
+        'Ricardo Aldape Moreno',
+        'Hombre',
+        'Electromecánica'
+    ),
+    (
+        18245628,
+        'Rosario Valdez Fuentes',
+        'Mujer',
+        'Sistemas Computacionales'
+    );
 
-INSERT INTO Medico VALUES (35879723, 'Manuel Andrade Villalobos', 1)
-INSERT INTO Medico VALUES (34565678, 'Patricia Ruiz Alcantar', 1)
-INSERT INTO Medico VALUES (56676844, 'Alejandro Origel Muñoz', 2)
+INSERT INTO
+    Medico
+VALUES
+    (35879723, 'Manuel Andrade Villalobos', 1),
+    (34565678, 'Patricia Ruiz Alcantar', 1),
+    (56676844, 'Alejandro Origel Muñoz', 2);
 
-INSERT INTO Medicamento VALUES ('P-237583', 'Paracetamol', 30)
-INSERT INTO Medicamento VALUES ('N-434084', 'Naproxeno', 35)
-INSERT INTO Medicamento VALUES ('I-434567', 'Ibuprofeno', 45)
-INSERT INTO Medicamento VALUES ('O-423048', 'Omeprazol', 60)
-INSERT INTO Medicamento VALUES ('A-674234', 'Ambroxol', 15)
-INSERT INTO Medicamento VALUES ('A-864540', 'Amoxicilina', 30)
-INSERT INTO Medicamento VALUES ('A-934721', 'Aspirina', 36)
+INSERT INTO
+    Medicamento
+VALUES
+    ('P-237583', 'Paracetamol', 30),
+    ('N-434084', 'Naproxeno', 35),
+    ('I-434567', 'Ibuprofeno', 45),
+    ('O-423048', 'Omeprazol', 60),
+    ('A-674234', 'Ambroxol', 15),
+    ('A-864540', 'Amoxicilina', 30),
+    ('A-934721', 'Aspirina', 36);
 
-INSERT INTO Alergia VALUES (18240123, 'I-434567')
-INSERT INTO Alergia VALUES (20240408, 'A-864540')
-INSERT INTO Alergia VALUES (18242334, 'A-934721')
+INSERT INTO
+    Alergia
+VALUES
+    (18240123, 'I-434567'),
+    (20240408, 'A-864540'),
+    (18242334, 'A-934721');
 
-INSERT INTO Consulta VALUES (18240123, 34565678, '2019-09-24', 'Infección en la garganta', 'A-864540')
-INSERT INTO Consulta VALUES (20240408, 56676844, '2019-10-01', 'Dolor de cabeza', 'A-934721')
-INSERT INTO Consulta VALUES (17246487, 34565678, '2019-10-08', 'Fiebre', 'P-237583')
-INSERT INTO Consulta VALUES (18242334, 35879723, '2019-10-08', 'Dolor muscular', 'I-434567')
-INSERT INTO Consulta VALUES (18245628, 35879723, '2019-10-11', 'Acidez estomacal', 'O-423048')
-	
+BEGIN TRANSACTION;
+    INSERT INTO
+        Consulta
+    VALUES
+        (
+            18240123,
+            34565678,
+            '2019-09-24',
+            'Infección en la garganta',
+            'A-864540'
+        ),
+        (
+            20240408,
+            56676844,
+            '2019-10-01',
+            'Dolor de cabeza',
+            'A-934721'
+        ),
+        (
+            17246487,
+            34565678,
+            '2019-10-08',
+            'Fiebre',
+            'P-237583'
+        ),
+        (
+            18242334,
+            35879723,
+            '2019-10-08',
+            'Dolor muscular',
+            'I-434567'
+        ),
+        (
+            18245628,
+            35879723,
+            '2019-10-11',
+            'Acidez estomacal',
+            'O-423048'
+        );
+
+    UPDATE
+        Medicamento
+    SET
+        Cantidad = Cantidad - 1
+    WHERE
+        Cod_M IN (
+            'A-864540',
+            'A-934721',
+            'P-237583',
+            'I-434567',
+            'O-423048'
+        );
+COMMIT;
 
 -- Vista
 -- Cuantas veces se han usado los medicamentos
@@ -188,20 +273,17 @@ AS
         (@Cedula, @Nombre, @Campus);
 
 CREATE PROCEDURE InsertarConsulta
-    @No_Consulta INT,
     @No_Control VARCHAR(50),
     @Cedula INT,
     @Fecha_consulta DATE,
-    @Diagnostico VARCHAR(30),
     @Tipo_Afeccion VARCHAR(30),
     @Cod_M VARCHAR(8)
 AS
     INSERT INTO
         Consulta
     VALUES
-        (@No_Consulta, @No_Control, @Cedula, @Fecha_consulta,
-        @Diagnostico, @Tipo_Afeccion, @Cod_M);
-
+        (@No_Control, @Cedula, @Fecha_consulta,
+        @Tipo_Afeccion, @Cod_M);
 
 CREATE PROCEDURE InsertarMedicamento
     @Cod_M VARCHAR(8),
@@ -243,7 +325,7 @@ AS
 CREATE PROCEDURE ConsultarConsultas
 AS
     SELECT
-        (No_Consulta, No_Control, Cedula, Fecha_consulta)
+        No_Consulta, No_Control, Cedula, Fecha_consulta
     FROM
         Consulta;
 
@@ -286,7 +368,7 @@ AS
         Medico
     SET
         Nombre = @Nombre,
-        Campus = @Campus,
+        Campus = @Campus
     WHERE
         Cedula = @Cedula;
 
@@ -295,7 +377,6 @@ CREATE PROCEDURE ActualizarConsulta
     @No_Control VARCHAR(50),
     @Cedula INT,
     @Fecha_consulta DATE,
-    @Diagnostico VARCHAR(30),
     @Tipo_Afeccion VARCHAR(30),
     @Cod_M VARCHAR(8)
 AS
@@ -305,12 +386,10 @@ AS
         No_Control = @No_Control,
         Cedula = @Cedula,
         Fecha_consulta = @Fecha_consulta,
-        Diagnostico = @Diagnostico,
         Tipo_Afeccion = @Tipo_Afeccion,
         Cod_M = @Cod_M
     WHERE
         No_Consulta = @No_Consulta;
-
 
 CREATE PROCEDURE ActualizarMedicamento
     @Cod_M VARCHAR(8),
@@ -321,7 +400,7 @@ AS
         Medicamento
     SET
         Nombre = @Nombre,
-        Cantidad = @Cantidad,
+        Cantidad = @Cantidad
     WHERE
         Cod_M = @Cod_M;
 

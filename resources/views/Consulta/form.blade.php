@@ -40,10 +40,7 @@
         </div>
         <div class="form-group">
             <label for="Cod_M">Código Medicamento:</label>
-            <input type="text" class="form-control" id="Cod_M" name="Cod_M" value="{{ $record['Cod_M'] ?? '' }}"
-                @isset($record)
-                    readonly
-                @endisset>
+            <input type="text" class="form-control" id="Cod_M" name="Cod_M" value="{{ $record['Cod_M'] ?? '' }}">
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success btn-block">Enviar</button>

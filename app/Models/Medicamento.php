@@ -12,5 +12,5 @@ class Medicamento extends Model
     protected $table = 'Medicamento';
     protected $primaryKey = 'Cod_M';
     public $timestamps = false;
-    protected $fillable = ['Cod_M', 'Nombre'];
+    protected $fillable = ['Cod_M', 'Nombre', 'Cantidad'];
 }

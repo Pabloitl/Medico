@@ -250,6 +250,8 @@ EXEC sp_addrolemember @rolename = 'db_datareader',
 EXEC sp_addrolemember @rolename = 'db_datawriter',
 @membername = 'Sistema';
 
+GRANT EXECUTE TO Sistema;
+
 -- Creación de procedimientos almacenados para inserción de registros
 CREATE PROCEDURE InsertarAlumno
     @No_Control INT,
@@ -284,6 +286,7 @@ AS
     VALUES
         (@No_Control, @Cedula, @Fecha_consulta,
         @Tipo_Afeccion, @Cod_M);
+EXEC InsertarConsulta 18245628,34565678,'2020-12-23','SAOTEUH','A-674234';
 
 CREATE PROCEDURE InsertarMedicamento
     @Cod_M VARCHAR(8),
@@ -409,9 +412,9 @@ CREATE TRIGGER CantidadMedicamentos ON Consulta
     AFTER INSERT
 AS
     UPDATE
-        Medicamentos
+        Medicamento
     SET
-        Cantidad = Cantidad + 1
+        Cantidad = Cantidad - 1
     WHERE
         Cod_M = (
             SELECT

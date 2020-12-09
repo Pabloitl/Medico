@@ -14,11 +14,13 @@
     method="POST">
         @csrf
         <div class="form-group">
-            <label for="No_Consulta">Numero Consulta:</label>
-            <input type="text" class="form-control" id="No_Consulta" name="No_Consulta" value="{{ $record['No_Consulta'] ?? '' }}"
-            @isset($record)
-                readonly
-            @endisset>
+            @if (isset($record))
+                <label for="No_Consulta">Numero Consulta:</label>
+                <input class="form-control" id="No_Consulta" name="No_Consulta" value="{{ $record['No_Consulta'] ?? '' }}"
+                    @isset($record)
+                        readonly
+                    @endisset>
+            @endif
         </div>
         <div class="form-group">
             <label for="No_Control">Numero Control:</label>
@@ -33,16 +35,15 @@
             <input type="date" class="form-control" id="Fecha_consulta" name="Fecha_consulta" value="{{ $record['Fecha_consulta'] ?? '' }}">
         </div>
         <div class="form-group">
-            <label for="Diagnostico">Diagnostico:</label>
-            <input type="text" class="form-control" id="Diagnostico" name="Diagnostico" value="{{ $record['Diagnostico'] ?? '' }}">
-        </div>
-        <div class="form-group">
             <label for="Tipo_Afeccion">Tipo de Afección:</label>
             <input type="text" class="form-control" id="Tipo_Afeccion" name="Tipo_Afeccion" value="{{ $record['Tipo_Afeccion'] ?? '' }}">
         </div>
         <div class="form-group">
             <label for="Cod_M">Código Medicamento:</label>
-            <input type="text" class="form-control" id="Cod_M" name="Cod_M" value="{{ $record['Cod_M'] ?? '' }}">
+            <input type="text" class="form-control" id="Cod_M" name="Cod_M" value="{{ $record['Cod_M'] ?? '' }}"
+                @isset($record)
+                    readonly
+                @endisset>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success btn-block">Enviar</button>

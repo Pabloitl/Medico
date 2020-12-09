@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumno as ModelsAlumno;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Alumno extends Controller
 {
     function index ()
     {
-        $alumnos = ModelsAlumno::get();
+        $alumnos = DB::select('EXEC ConsultarAlumnos');
 
         return view('Alumno/lista', compact('alumnos'));
     }
@@ -21,13 +22,14 @@ class Alumno extends Controller
 
     function create (Request $request)
     {
-        $alumno = ModelsAlumno::create([
-            'No_Control' => $request['No_Control'],
-            'Nombre' => $request['Nombre'],
-            'Sexo' => $request['Sexo'],
-            'Carrera' => $request['Carrera']
-        ]);
-        $alumno->save();
+        $data = [
+            $request['No_Control'],
+            $request['Nombre'],
+            $request['Sexo'],
+            $request['Carrera']
+        ];
+
+        DB::statement('EXEC InsertarAlumno ?,?,?,?', $data);
 
         return redirect('/alumnos');
     }
@@ -40,14 +42,14 @@ class Alumno extends Controller
 
     function update (Request $request)
     {
-        $alumno = ModelsAlumno::find($request['No_Control']);
+        $data = [
+            $request['No_Control'],
+            $request['Nombre'],
+            $request['Sexo'],
+            $request['Carrera']
+        ];
 
-        $alumno->No_Control = $request['No_Control'];
-        $alumno->Nombre = $request['Nombre'];
-        $alumno->Sexo = $request['Sexo'];
-        $alumno->Carrera = $request['Carrera'];
-
-        $alumno->save();
+        DB::statement('EXEC ActualizarAlumno ?,?,?,?', $data);
 
         return redirect('/alumnos');
     }

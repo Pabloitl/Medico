@@ -19,6 +19,7 @@
         <a class="nav-item nav-link" href="{{ url('medicamentos') }}">Medicamentos</a>
         <a class="nav-item nav-link" href="{{ url('alergias') }}">Alergias</a>
         <a class="nav-item nav-link" href="{{ url('consultas') }}">Consulta</a>
+        <a class="nav-item nav-link" href="{{ url('reportes') }}">Reporte</a>
         </div>
     </div>
     </nav>

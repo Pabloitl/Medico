@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Consulta as ModelsConsulta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Consulta extends Controller
 {
     function index ()
     {
-        $records = ModelsConsulta::get();
+        $records = DB::select('EXEC ConsultarConsultas');
 
         return view('Consulta/lista', compact('records'));
     }
@@ -21,16 +22,15 @@ class Consulta extends Controller
 
     function create (Request $request)
     {
-        $alumno = ModelsConsulta::create([
-            'No_Consulta' => $request['No_Consulta'],
-            'No_Control' => $request['No_Control'],
-            'Cedula' => $request['Cedula'],
-            'Fecha_consulta' => $request['Fecha_consulta'],
-            'Diagnostico' => $request['Diagnostico'],
-            'Tipo_Afeccion' => $request['Tipo_Afeccion'],
-            'Cod_M' => $request['Cod_M']
-        ]);
-        $alumno->save();
+        $data = [
+            $request['No_Control'],
+            $request['Cedula'],
+            $request['Fecha_consulta'],
+            $request['Tipo_Afeccion'],
+            $request['Cod_M']
+        ];
+
+        DB::statement('EXEC InsertarConsulta ?,?,?,?,?', $data);
 
         return redirect('/consultas');
     }
@@ -43,17 +43,16 @@ class Consulta extends Controller
 
     function update (Request $request)
     {
-        $record = ModelsConsulta::find($request['No_Consulta']);
+        $data = [
+            $request['No_Consulta'],
+            $request['No_Control'],
+            $request['Cedula'],
+            $request['Fecha_consulta'],
+            $request['Tipo_Afeccion'],
+            $request['Cod_M']
+        ];
 
-            $record->No_Consulta = $request['No_Consulta'];
-            $record->No_Control = $request['No_Control'];
-            $record->Cedula = $request['Cedula'];
-            $record->Fecha_consulta = $request['Fecha_consulta'];
-            $record->Diagnostico = $request['Diagnostico'];
-            $record->Tipo_Afeccion = $request['Tipo_Afeccion'];
-            $record->Cod_M = $request['Cod_M'];
-
-        $record->save();
+        DB::statement('EXEC ActualizarConsulta ?,?,?,?,?,?', $data);
 
         return redirect('/consultas');
     }

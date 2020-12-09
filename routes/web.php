@@ -7,6 +7,7 @@ use App\Http\Controllers\Alergia;
 use App\Http\Controllers\Consulta;
 use App\Http\Controllers\Medicamento;
 use App\Http\Controllers\Medico;
+use App\Http\Controllers\Reporte;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,5 @@ Route::post('/medicos/crear', [Medico::class, 'create']);
 Route::post('/medicos/actualizar', [Medico::class, 'update']);
 Route::get('/medicos/borrar/{id}', [Medico::class, 'delete']);
 Route::get('/medicos/{id}', [Medico::class, 'show']);
+
+Route::get('/reportes', [Reporte::class, 'index']);

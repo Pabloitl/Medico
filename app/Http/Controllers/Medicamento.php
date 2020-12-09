@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicamento as ModelsMedicamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Medicamento extends Controller
 {
     function index ()
     {
-        $records = ModelsMedicamento::get();
+        $records = DB::select('EXEC ConsultarMedicamentos');
 
         return view('Medicamento/lista', compact('records'));
     }
@@ -21,11 +22,13 @@ class Medicamento extends Controller
 
     function create (Request $request)
     {
-        $alumno = ModelsMedicamento::create([
-            'Cod_M' => $request['Cod_M'],
-            'Nombre' => $request['Nombre'],
-        ]);
-        $alumno->save();
+        $data = [
+            $request['Cod_M'],
+            $request['Nombre'],
+            $request['Cantidad']
+        ];
+
+        DB::statement('EXEC InsertarMedicamento ?,?,?', $data);
 
         return redirect('/medicamentos');
     }
@@ -38,11 +41,13 @@ class Medicamento extends Controller
 
     function update (Request $request)
     {
-        $record = ModelsMedicamento::find($request['Cod_M']);
+        $record = [
+            $request['Cod_M'],
+            $request['Nombre'],
+            $request['Cantidad']
+        ];
 
-        $record->Nombre = $request['Nombre'];
-
-        $record->save();
+        DB::statement('EXEC ActualizarMedicamento ?,?,?', $record);
 
         return redirect('/medicamentos');
     }

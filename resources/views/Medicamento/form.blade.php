@@ -24,6 +24,10 @@
             <label for="Nombre">Nombre:</label>
             <input type="text" class="form-control" id="Nombre" name="Nombre" value="{{ $record['Nombre'] ?? '' }}">
         </div>
+        <div class="form-group">
+            <label for="Cantidad">Cantidad:</label>
+            <input type="number" class="form-control" id="Cantidad" name="Cantidad" value="{{ $record['Cantidad'] ?? '' }}">
+        </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success btn-block">Enviar</button>
         </div>

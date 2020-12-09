@@ -10,7 +10,7 @@ class Alergia extends Controller
 {
     function index ()
     {
-        $records = ModelsAlergia::get();
+        $records = DB::select('EXEC ConsultarAlergias');
 
         return view('Alergia/lista', compact('records'));
     }
@@ -22,10 +22,12 @@ class Alergia extends Controller
 
     function create (Request $request)
     {
-        DB::table('Alergia')->insert([
-            'No_Control' => $request['No_Control'],
-            'Cod_M' => $request['Cod_M'],
-        ]);
+        $data = [
+            $request['No_Control'],
+            $request['Cod_M'],
+        ];
+
+        DB::statement('EXEC InsertarAlergia ?,?', $data);
 
         return redirect('/alergias');
     }
@@ -38,18 +40,6 @@ class Alergia extends Controller
 
         return view('Alergia/form', compact('record'));
     }
-
-    // function update (Request $request)
-    // {
-    //     $record = ModelsAlergia::find($request['No_Control']);
-
-    //     $record->No_Control = $request['No_Control'];
-    //     $record->Cod_M = $request['Cod_M'];
-
-    //     $record->save();
-
-    //     return redirect('/alergias');
-    // }
 
     function delete ($id, $id2) {
         DB::table('Alergia')

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Medico as ModelsMedico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Medico extends Controller
 {
     function index ()
     {
-        $records = ModelsMedico::get();
+        $records = DB::select('EXEC ConsultarMedicos');
 
         return view('Medico/lista', compact('records'));
     }
@@ -21,12 +22,13 @@ class Medico extends Controller
 
     function create (Request $request)
     {
-        $alumno = ModelsMedico::create([
-            'Cedula' => $request['Cedula'],
-            'Nombre' => $request['Nombre'],
-            'Campus' => $request['Campus'],
-        ]);
-        $alumno->save();
+        $record = [
+            $request['Cedula'],
+            $request['Nombre'],
+            $request['Campus']
+        ];
+
+        DB::statement('EXEC InsertarMedico ?,?,?', $record);
 
         return redirect('/medicos');
     }
@@ -39,12 +41,13 @@ class Medico extends Controller
 
     function update (Request $request)
     {
-        $record = ModelsMedico::find($request['Cedula']);
+        $record = [
+            $request['Cedula'],
+            $request['Nombre'],
+            $request['Campus']
+        ];
 
-        $record->Nombre = $request['Nombre'];
-        $record->Campus = $request['Campus'];
-
-        $record->save();
+        DB::statement('EXEC ActualizarMedico ?,?,?', $record);
 
         return redirect('/medicos');
     }

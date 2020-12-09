@@ -407,8 +407,10 @@ AS
     WHERE
         Cod_M = @Cod_M;
 
--- Definición de un trigger para controlar integridad de datos
-CREATE TRIGGER CantidadMedicamentos ON Consulta
+-- Definición de triggers para controlar integridad de datos
+
+--- Quita un medicamento cuando se realice una nueva consulta
+CREATE TRIGGER CantidadMedicamentosInsert ON Consulta
     AFTER INSERT
 AS
     UPDATE
@@ -421,4 +423,49 @@ AS
                 Cod_M
             FROM
                 inserted
+        );
+
+--- Si se cambia el medicamento de una consulta
+CREATE TRIGGER CantidadMedicamentosUpdate ON Consulta
+    AFTER UPDATE
+AS
+    BEGIN TRANSACTION; -- Transaccion explicita
+        UPDATE
+            Medicamento
+        SET
+            Cantidad = Cantidad - 1
+        WHERE
+            Cod_M = (
+                SELECT
+                    Cod_M
+                FROM
+                    inserted
+            );
+        UPDATE
+            Medicamento
+        SET
+            Cantidad = Cantidad + 1
+        WHERE
+            Cod_M = (
+                SELECT
+                    Cod_M
+                FROM
+                    deleted
+            );
+    COMMIT;
+
+--- Si se borra una consulta, el medicamento no se habra utilizado
+CREATE TRIGGER CantidadMedicamentosDelete ON Consulta
+    AFTER DELETE
+AS
+    UPDATE
+        Medicamento
+    SET
+        Cantidad = Cantidad + 1
+    WHERE
+        Cod_M = (
+            SELECT
+                Cod_M
+            FROM
+                deleted
         );
